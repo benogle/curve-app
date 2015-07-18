@@ -1,0 +1,11 @@
+{
+  "name": "curve",
+  "version": "0.0.1",
+  "main": "main.js",
+  "devDependencies": {
+    "electron-prebuilt": "^0.29.2",
+    "electron-compile": "*"
+  },
+  "dependencies": {
+  }
+}
