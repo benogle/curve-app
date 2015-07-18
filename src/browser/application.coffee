@@ -24,8 +24,7 @@ class Application
     @openWindow()
 
   openWindow: ->
-    win = new BrowserWindow({width: 600, height: 600})
-    win.loadUrl("file://#{@staticPath}/index.html")
+    win = new ApplicationWindow("file://#{@staticPath}/index.html", {width: 1200, height: 800})
     @addWindow(win)
 
   # Public: Removes the window from the global window list.

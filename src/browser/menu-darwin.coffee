@@ -1,24 +1,17 @@
 module.exports = (app, window) ->
   [
     {
-      label: 'Soapbox',
+      label: 'App',
       submenu: [
         {
-          label: 'About Soapbox',
+          label: 'About',
           selector: 'orderFrontStandardAboutPanel:'
         },
         {
           type: 'separator'
         },
         {
-          label: 'Services',
-          submenu: []
-        },
-        {
-          type: 'separator'
-        },
-        {
-          label: 'Hide Soapbox',
+          label: 'Hide',
           accelerator: 'Command+H',
           selector: 'hide:'
         },
@@ -56,44 +49,6 @@ module.exports = (app, window) ->
           label: 'Close Window',
           accelerator: 'Command+W',
           click: -> window.close()
-        }
-      ]
-    },
-    {
-      label: 'Edit',
-      submenu: [
-        {
-          label: 'Undo',
-          accelerator: 'Command+Z',
-          selector: 'undo:'
-        },
-        {
-          label: 'Redo',
-          accelerator: 'Shift+Command+Z',
-          selector: 'redo:'
-        },
-        {
-          type: 'separator'
-        },
-        {
-          label: 'Cut',
-          accelerator: 'Command+X',
-          selector: 'cut:'
-        },
-        {
-          label: 'Copy',
-          accelerator: 'Command+C',
-          selector: 'copy:'
-        },
-        {
-          label: 'Paste',
-          accelerator: 'Command+V',
-          selector: 'paste:'
-        },
-        {
-          label: 'Select All',
-          accelerator: 'Command+A',
-          selector: 'selectAll:'
         }
       ]
     },
@@ -144,7 +99,7 @@ module.exports = (app, window) ->
       submenu: [
         {
           label: 'Repository',
-          click: -> require('shell').openExternal('http://github.com/bkeepers/soapbox')
+          click: -> require('shell').openExternal('http://github.com/benogle/electron-sample')
         }
       ]
     }

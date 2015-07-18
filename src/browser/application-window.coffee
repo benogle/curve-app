@@ -6,8 +6,8 @@ module.exports =
 class ApplicationWindow
   window: null
 
-  constructor: (path) ->
-    @window = new BrowserWindow({})
+  constructor: (path, options) ->
+    @window = new BrowserWindow(options)
     @window.loadUrl(path)
     @menu = Menu.buildFromTemplate(require('./menu-darwin')(app, @window))
     Menu.setApplicationMenu(@menu)
