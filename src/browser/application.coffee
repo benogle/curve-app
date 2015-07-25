@@ -1,11 +1,12 @@
+ipc = require 'ipc'
+app = require 'app'
+path = require 'path'
+BrowserWindow = require 'browser-window'
+
 ApplicationWindow = require './application-window'
-ipc = require('ipc')
-BrowserWindow = require('browser-window')
-app = require('app')
 
 module.exports =
 class Application
-  staticPath: "#{__dirname}/../../static"
   windows: null
 
   constructor: (options) ->
@@ -24,7 +25,8 @@ class Application
     @openWindow()
 
   openWindow: ->
-    win = new ApplicationWindow("file://#{@staticPath}/index.html", {width: 1200, height: 800})
+    windowPath = path.resolve(__dirname, "..", "main-window", "index.html")
+    win = new ApplicationWindow(windowPath, {width: 1200, height: 800}, {})
     @addWindow(win)
 
   # Public: Removes the window from the global window list.

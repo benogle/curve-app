@@ -9,9 +9,7 @@
   },
   "compileCacheDir": "./compile-cache",
   "compileDirs": [
-    "src",
-    "styles",
-    "static"
+    "src"
   ],
   "devDependencies": {
     "electron-compile": "*",
