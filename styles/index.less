@@ -5,3 +5,48 @@
 html, body {
   font-family: Helvetica, Arial, sans-serif;
 }
+
+#canvas, body{
+  padding: 0; margin: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow: auto;
+}
+#canvas>svg {
+  width: 100% !important;
+}
+
+svg .object-selection{
+  fill: none;
+  stroke: #09C;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+svg .object-preselection{
+  fill: none;
+  stroke: #F00;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+svg .node-editor-node{
+  fill: #fff;
+  stroke: #069;
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+svg .node-editor-lines{
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1;
+  stroke-dasharray: . ;
+}
+svg .node-editor-handle{
+  fill: #fff;
+  stroke: #069;
+  stroke-width: 1;
+  stroke-linecap: round;
+}
