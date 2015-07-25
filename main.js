@@ -1,23 +1,23 @@
 var path = require('path')
+var argv = require('yargs')
+  .default('test', false)
+  .default('environment', 'production')
+  .argv
 
-var getEnvironment = function() {
-  var environment = 'production'
-  for (var i = 0; i < process.argv.length; i++) {
-    if (process.argv[i] == '--environment' && process.argv[i + 1]) {
-      environment = process.argv[i + 1]
-      break
-    }
-  }
-  return environment
-}
-
-if (getEnvironment() == 'production') {
-  require('electron-compile').initForProduction(path.join(__dirname, 'compile-cache'))
+if (argv.test) {
+  require('electron-compile').init()
+  var TestApplication = require('electron-jasmine').TestApplication
+  new TestApplication({specDirectory: 'spec'})
 }
 else {
-  console.log('In development mode')
-  require('electron-compile').init()
-}
+  if (argv.environment == 'production') {
+    require('electron-compile').initForProduction(path.join(__dirname, 'compile-cache'))
+  }
+  else {
+    console.log('In development mode')
+    require('electron-compile').init()
+  }
 
-var Application = require('./src/browser/application')
-application = new Application
+  var Application = require('./src/browser/application')
+  new Application
+}
