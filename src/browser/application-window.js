@@ -24,6 +24,10 @@ class ApplicationWindow {
     var args = 1 <= arguments.length ? Array.prototype.slice.call(arguments, 0) : [];
     return this.window.on.apply(this.window, args);
   };
+
+  close() {
+    this.window.close()
+  };
 }
 
 module.exports = ApplicationWindow;

@@ -2,34 +2,61 @@ var ApplicationWindow, BrowserWindow, app, ipc, path;
 
 ipc = require('ipc');
 app = require('app');
+dialog = require('dialog');
 path = require('path');
 BrowserWindow = require('browser-window');
 ApplicationWindow = require('./application-window');
 
 class Application {
-  constructor(options) {
+  constructor(argv) {
     global.application = this;
     require('crash-reporter').start();
-    app.on('window-all-closed', function() {
-      if (process.platform !== 'darwin') {
-        return app.quit();
-      }
-    });
-    app.on('ready', () => this.ready());
+
+    var fileNamesToOpen = argv._
+    app.on('ready', () => this.onReady(fileNamesToOpen));
+
     this.windows = [];
+    this.gettingStartedWindow = null
   }
 
-  ready() {
-    this.openWindow();
+  // Called when electron is ready
+  onReady(fileNamesToOpen) {
+    console.log(fileNamesToOpen);
+    if (fileNamesToOpen.length)
+      this.openFiles(fileNamesToOpen);
+    else
+      this.openWindow()
   }
 
-  openWindow() {
+  // Called when the user clicks the open menu
+  openFileDialog() {
+    var options = {
+      title: 'Open an SVG file',
+      properties: ['openFile', 'multiSelections'],
+      filters: [
+        { name: 'SVG files', extensions: ['svg'] }
+      ]
+    };
+
+    dialog.showOpenDialog(null, options, (fileNames) => {
+      this.openFiles(fileNames);
+    });
+  }
+
+  openFiles(fileNames) {
+    if (fileNames && fileNames.length){
+      for (let fileName of fileNames)
+        this.openWindow(fileName)
+    }
+  }
+
+  openWindow(fileName) {
     var win, windowPath;
-    windowPath = path.resolve(__dirname, "..", "main-window", "index.html");
+    windowPath = path.resolve(__dirname, "..", "editor-window", "index.html");
     win = new ApplicationWindow(windowPath, {
       width: 1200,
       height: 800
-    }, {});
+    }, {fileName: fileName});
     this.addWindow(win);
   }
 

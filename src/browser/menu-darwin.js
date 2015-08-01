@@ -40,7 +40,7 @@ module.exports = function(app, window) {
         {
           label: 'Open…',
           accelerator: 'Command+o',
-          click: () => global.application.openDialog()
+          click: () => global.application.openFileDialog()
         },
         {
           type: 'separator'

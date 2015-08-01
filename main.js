@@ -19,5 +19,5 @@ else {
   }
 
   var Application = require('./src/browser/application')
-  new Application
+  new Application(argv)
 }
