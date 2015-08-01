@@ -1,0 +1,10 @@
+#!/bin/bash
+
+MODULE_PATH="./node_modules"
+COMPILER_PATH="$MODULE_PATH/.bin/electron-compile"
+
+PATH_TO_COMPILE="./src"
+COMPILE_CACHE_PATH="./compile-cache"
+
+echo "Compiling..."
+$COMPILER_PATH --target "$COMPILE_CACHE_PATH" $PATH_TO_COMPILE

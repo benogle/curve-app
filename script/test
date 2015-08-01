@@ -1,0 +1,6 @@
+#!/bin/bash
+
+MODULE_PATH="./node_modules"
+ELECTRON_PATH="$MODULE_PATH/.bin/electron"
+
+$ELECTRON_PATH . --test $@
