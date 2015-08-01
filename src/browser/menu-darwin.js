@@ -1,5 +1,5 @@
-module.exports = (app, window) ->
-  [
+module.exports = function(app, window) {
+  return [
     {
       label: 'App',
       submenu: [
@@ -30,7 +30,7 @@ module.exports = (app, window) ->
         {
           label: 'Quit',
           accelerator: 'Command+Q',
-          click: -> app.quit()
+          click: () => app.quit()
         }
       ]
     },
@@ -40,7 +40,7 @@ module.exports = (app, window) ->
         {
           label: 'Open…',
           accelerator: 'Command+o',
-          click: -> global.application.openDialog()
+          click: () => global.application.openDialog()
         },
         {
           type: 'separator'
@@ -48,7 +48,7 @@ module.exports = (app, window) ->
         {
           label: 'Close Window',
           accelerator: 'Command+W',
-          click: -> window.close()
+          click: () => window.close()
         }
       ]
     },
@@ -58,17 +58,17 @@ module.exports = (app, window) ->
         {
           label: 'Reload',
           accelerator: 'Command+R',
-          click: -> window.restart()
+          click: () => window.restart()
         },
         {
           label: 'Toggle Full Screen',
           accelerator: 'Command+Shift+F',
-          click: -> window.setFullScreen(!window.isFullScreen())
+          click: () => window.setFullScreen(!window.isFullScreen())
         },
         {
           label: 'Toggle Developer Tools',
           accelerator: 'Alt+Command+I',
-          click: -> window.toggleDevTools()
+          click: () => window.toggleDevTools()
         }
       ]
     },
@@ -99,8 +99,9 @@ module.exports = (app, window) ->
       submenu: [
         {
           label: 'Repository',
-          click: -> require('shell').openExternal('http://github.com/benogle/electron-sample')
+          click: () => require('shell').openExternal('http://github.com/benogle/electron-sample')
         }
       ]
     }
-  ]
+  ];
+};
