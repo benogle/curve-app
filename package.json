@@ -11,6 +11,9 @@
   "compileDirs": [
     "src"
   ],
+  "scripts": {
+    "test": "script/test"
+  },
   "devDependencies": {
     "electron-compile": "^0.7.4",
     "electron-jasmine": "^0.1.8",
