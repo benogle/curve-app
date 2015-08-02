@@ -12,7 +12,7 @@ class SVGEditor {
   }
 
   deserialize() {
-    if (!this.svgPath) return; 
+    if (!this.svgPath) return;
     try {
       var svg = fs.readFileSync(this.svgPath, {encoding: 'utf8'});
       this.svgDocument.deserialize(svg);
