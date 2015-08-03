@@ -55,8 +55,10 @@ class SVGEditorModel {
   writeFile(filePath, data, callback) {
     let options = { encoding: 'utf8' }
     this.setFilePath(filePath)
-    this.setModified(false)
-    fs.writeFile(filePath, data, options, callback)
+    fs.writeFile(filePath, data, options, () => {
+      this.setModified(false)
+      if (callback) callback()
+    })
   }
 }
 
