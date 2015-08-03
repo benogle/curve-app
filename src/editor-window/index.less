@@ -4,17 +4,27 @@
 
 html, body {
   font-family: Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-#canvas, body{
-  padding: 0; margin: 0;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
+body {
   overflow: auto;
+  background: #f4f4f4;
 }
+
+#canvas-scroller {
+  padding: 100px;
+  box-sizing: content-box;
+}
+
+#canvas {
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 1px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
 #canvas>svg {
   width: 100% !important;
 }

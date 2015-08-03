@@ -6,9 +6,7 @@ window.onload = function() {
   hash = window.location.hash.slice(1)
   args = Object.freeze(JSON.parse(decodeURIComponent(hash)))
   global.curve = new Curve(args)
-  editor = new SVGEditor(args.fileName)
-  document.body.appendChild(editor.getCanvas())
-
+  editor = new SVGEditor(args.fileName, document.querySelector('#canvas'))
   global.EDITOR = editor // debugging
 
   window.onbeforeunload = (event) => {

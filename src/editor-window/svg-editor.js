@@ -64,12 +64,13 @@ class SVGEditorModel {
 }
 
 class SVGEditor {
-  constructor(filePath) {
+  constructor(filePath, canvasNode) {
     this.model = new SVGEditorModel(filePath)
     if (global.curve) curve.setActiveEditor(this)
 
-    this.createCanvas()
+    this.createCanvas(canvasNode)
     this.createDocument()
+    this.observeDocument()
     this.open()
 
     this.model.observeDocument(this.svgDocument)
@@ -99,13 +100,33 @@ class SVGEditor {
     return this.canvas
   }
 
-  createCanvas() {
-    this.canvas = document.createElement('div')
-    this.canvas.id = 'canvas'
+  createCanvas(canvasNode) {
+    if (canvasNode)
+      this.canvas = canvasNode
+    else {
+      this.canvas = document.createElement('div')
+      this.canvas.id = 'canvas'
+    }
   }
 
   createDocument() {
     this.svgDocument = new SVGDocument(this.canvas)
+  }
+
+  observeDocument() {
+    let updateCanvasSize = () => {
+      let size = this.svgDocument.getSize()
+      if (size) {
+        this.canvas.style.width = `${size.width}px`
+        this.canvas.style.height = `${size.height}px`
+
+        // HACK to get the padding reveal on the right when window < canvas size
+        this.canvas.parentNode.style.minWidth = `${size.width}px`
+      }
+    }
+
+    this.svgDocument.on('change:size', updateCanvasSize)
+    updateCanvasSize()
   }
 
   open() {
