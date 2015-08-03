@@ -47,7 +47,7 @@ class Curve {
     title = this.activeEditor.getTitle()
 
     options = {
-      message: "'#{title}' has changes, do you want to save them?",
+      message: `'${title}' has changes, do you want to save them?`,
       detailedMessage: "Your changes will be lost if you close this item without saving.",
       buttons: ["Save", "Cancel", "Don't Save"]
     }
