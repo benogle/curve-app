@@ -43,6 +43,16 @@ module.exports = function(app, window) {
           click: () => global.application.openFileDialog()
         },
         {
+          label: 'Save',
+          accelerator: 'Command+s',
+          click: () => global.application.saveActiveFile()
+        },
+        {
+          label: 'Save As…',
+          accelerator: 'Command+Shift+s',
+          click: () => global.application.saveActiveFileAs()
+        },
+        {
           type: 'separator'
         },
         {

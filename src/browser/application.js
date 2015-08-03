@@ -28,6 +28,18 @@ class Application {
       this.openWindow()
   }
 
+  saveActiveFile() {
+    let win = BrowserWindow.getFocusedWindow()
+    if (win)
+      win.webContents.send('save-active-file')
+  }
+
+  saveActiveFileAs() {
+    let win = BrowserWindow.getFocusedWindow()
+    if (win)
+      win.webContents.send('save-active-file-as')
+  }
+
   // Called when the user clicks the open menu
   openFileDialog() {
     var options = {
