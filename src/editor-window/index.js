@@ -9,8 +9,7 @@ window.onload = function() {
   editor = new SVGEditor(args.fileName, document.querySelector('#canvas'))
   global.EDITOR = editor // debugging
 
-  window.onbeforeunload = (event) => {
-    let confirmed = curve.confirmClose()
-    return confirmed
+  window.onbeforeunload = function() {
+    return curve.confirmClose()
   }
 }
