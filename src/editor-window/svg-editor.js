@@ -4,12 +4,24 @@ var Emitter = require('event-kit').Emitter
 
 class SVGEditorModel {
   constructor(filePath) {
-    this.filePath = filePath
     this.emitter = new Emitter
+    this.filePath = filePath
+    this.modified = false
+    this.documentSubscription = null
   }
 
   onDidChangeFilePath(callback) {
     this.emitter.on('did-change-file-path', callback)
+  }
+
+  onDidChangeModified(callback) {
+    this.emitter.on('did-change-modified', callback)
+  }
+
+  observeDocument(svgDocument) {
+    if (this.documentSubscription)
+      this.documentSubscription.dispose()
+    this.documentSubscription = svgDocument.on('change', () => this.setModified(true))
   }
 
   getFilePath() {
@@ -23,10 +35,28 @@ class SVGEditorModel {
     this.emitter.emit('did-change-file-path', filePath)
   }
 
+  isModified() {
+    return this.modified
+  }
+
+  setModified(modified) {
+    if (this.modified === modified) return;
+
+    this.modified = modified
+    this.emitter.emit('did-change-modified', modified)
+  }
+
   readFileSync() {
     let filePath = this.getFilePath()
     if (!filePath) return null
     return fs.readFileSync(filePath, {encoding: 'utf8'})
+  }
+
+  writeFile(filePath, data, callback) {
+    let options = { encoding: 'utf8' }
+    this.setFilePath(filePath)
+    this.setModified(false)
+    fs.writeFile(filePath, data, options, callback)
   }
 }
 
@@ -36,11 +66,22 @@ class SVGEditor {
     if (global.curve) curve.setActiveEditor(this)
 
     this.createCanvas()
+    this.createDocument()
     this.open()
+
+    this.model.observeDocument(this.svgDocument)
   }
 
   onDidChangeFilePath(callback) {
     this.model.onDidChangeFilePath(callback)
+  }
+
+  onDidChangeModified(callback) {
+    this.model.onDidChangeModified(callback)
+  }
+
+  isModified() {
+    return this.model.isModified()
   }
 
   getFilePath() {
@@ -56,9 +97,12 @@ class SVGEditor {
   }
 
   createCanvas() {
-    this.canvas = document.createElement('div');
+    this.canvas = document.createElement('div')
     this.canvas.id = 'canvas'
-    this.svgDocument = new SVGDocument(this.canvas);
+  }
+
+  createDocument() {
+    this.svgDocument = new SVGDocument(this.canvas)
   }
 
   open() {

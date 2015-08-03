@@ -16,16 +16,25 @@ class Curve {
     this.activeEditor = activeEditor
     if (this.activeEditor.onDidChangeFilePath)
       this.activeEditor.onDidChangeFilePath(this.updateTitle.bind(this))
+    if (this.activeEditor.onDidChangeModified)
+      this.activeEditor.onDidChangeModified(this.updateTitle.bind(this))
     this.updateTitle()
   }
 
   updateTitle() {
-    let filePath = this.activeEditor.getFilePath()
+    let filePath, isModified = false
+
+    filePath = this.activeEditor.getFilePath()
     if (filePath)
       ipc.send('call-window-method', 'setRepresentedFilename', filePath)
 
+    if (this.activeEditor.isModified) {
+      isModified = this.activeEditor.isModified()
+      ipc.send('call-window-method', 'setDocumentEdited', isModified)
+    }
+
     if (this.activeEditor.getTitle)
-      document.title = `${this.activeEditor.getTitle()} - Curve`
+      document.title = `${this.activeEditor.getTitle()}${isModified ? ' (edited)' : ''} - Curve`
     else
       document.title = 'Curve'
   }
