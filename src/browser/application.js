@@ -15,6 +15,11 @@ class Application {
     var fileNamesToOpen = argv._
     app.on('ready', () => this.onReady(fileNamesToOpen));
 
+    ipc.on('call-window-method', (event, method, ...args) => {
+      let win = BrowserWindow.fromWebContents(event.sender)
+      win[method](...args)
+    })
+
     this.windows = [];
     this.gettingStartedWindow = null
   }

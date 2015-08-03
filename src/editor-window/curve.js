@@ -20,6 +20,10 @@ class Curve {
   }
 
   updateTitle() {
+    let filePath = this.activeEditor.getFilePath()
+    if (filePath)
+      ipc.send('call-window-method', 'setRepresentedFilename', filePath)
+
     if (this.activeEditor.getTitle)
       document.title = `${this.activeEditor.getTitle()} - Curve`
     else
