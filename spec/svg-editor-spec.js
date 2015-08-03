@@ -75,4 +75,41 @@ describe('SVGEditor', function() {
       expect(modifiedSpy).toHaveBeenCalled()
     })
   })
+
+  describe("::save", function() {
+    it("saves the file and keeps the filePath", function() {
+      let filePathSpy = jasmine.createSpy()
+      editor.onDidChangeFilePath(filePathSpy)
+      spyOn(fs, 'writeFile').and.callFake((filePath, data, options, callback) => {
+        expect(filePath).toBe(samplePath)
+        expect(options.encoding).toBe('utf8')
+        expect(data).toContain('<svg')
+        callback()
+      })
+
+      editor.save()
+
+      expect(fs.writeFile).toHaveBeenCalled()
+      expect(filePathSpy).not.toHaveBeenCalled()
+    })
+  })
+
+  describe("::saveAs", function() {
+    it("saves the file and changes the filePath", function() {
+      let newFilePath = '/some/file.svg'
+      let filePathSpy = jasmine.createSpy()
+      editor.onDidChangeFilePath(filePathSpy)
+      spyOn(fs, 'writeFile').and.callFake((filePath, data, options, callback) => {
+        expect(filePath).toBe(newFilePath)
+        expect(options.encoding).toBe('utf8')
+        expect(data).toContain('<svg')
+        callback()
+      })
+
+      editor.saveAs(newFilePath)
+
+      expect(fs.writeFile).toHaveBeenCalled()
+      expect(filePathSpy).toHaveBeenCalled()
+    })
+  })
 })

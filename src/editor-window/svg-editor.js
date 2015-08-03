@@ -119,11 +119,18 @@ class SVGEditor {
   }
 
   save() {
-    console.log('SAVE');
+    this.saveAs(this.getFilePath())
   }
 
   saveAs(filePath) {
-    console.log('SAVEAS '+filePath);
+    filePath = filePath || this.getFilePath()
+    try {
+      let data = this.svgDocument.serialize()
+      this.model.writeFile(filePath, data)
+    }
+    catch (error) {
+      console.error(error.stack)
+    }
   }
 }
 
