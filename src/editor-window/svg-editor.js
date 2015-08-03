@@ -125,6 +125,7 @@ class SVGEditor {
         this.canvas.style.height = `${size.height}px`
 
         // HACK to get the padding reveal on the right when window < canvas size
+        // There is probably a nice CSS way to do this...
         this.canvas.parentNode.style.minWidth = `${size.width}px`
       }
     }
