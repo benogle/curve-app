@@ -14,6 +14,16 @@ class Curve {
 
   setActiveEditor(activeEditor) {
     this.activeEditor = activeEditor
+    if (this.activeEditor.onDidChangeFilePath)
+      this.activeEditor.onDidChangeFilePath(this.updateTitle.bind(this))
+    this.updateTitle()
+  }
+
+  updateTitle() {
+    if (this.activeEditor.getTitle)
+      document.title = `${this.activeEditor.getTitle()} - Curve`
+    else
+      document.title = 'Curve'
   }
 
   saveActiveEditor() {

@@ -17,8 +17,8 @@ describe('SVGEditor', function() {
     })
 
     it("is labeled untitled", function(){
-      expect(editor.getTitle()).toBe('untitled - Curve')
-      expect(document.title).toEqual(editor.getTitle())
+      expect(editor.getTitle()).toBe('untitled')
+      expect(document.title).toEqual(editor.getTitle() + ' - Curve')
     })
 
     it("renders no paths", function(){
@@ -33,8 +33,8 @@ describe('SVGEditor', function() {
     })
 
     it("has the path in the title", function(){
-      expect(editor.getTitle()).toBe(`${samplePath} - Curve`)
-      expect(document.title).toEqual(editor.getTitle())
+      expect(editor.getTitle()).toBe(samplePath)
+      expect(document.title).toEqual(editor.getTitle() + ' - Curve')
     })
 
     it("reads the file and renders the svg", function(){

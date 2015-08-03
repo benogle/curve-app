@@ -32,18 +32,23 @@ class SVGEditorModel {
 
 class SVGEditor {
   constructor(filePath) {
+    this.model = new SVGEditorModel(filePath)
     if (global.curve) curve.setActiveEditor(this)
 
-    this.model = new SVGEditorModel(filePath)
-    this.model.onDidChangeFilePath(this.updateTitle.bind(this))
-
-    this.updateTitle()
     this.createCanvas()
     this.open()
   }
 
+  onDidChangeFilePath(callback) {
+    this.model.onDidChangeFilePath(callback)
+  }
+
   getFilePath() {
     return this.model.getFilePath()
+  }
+
+  getTitle() {
+    return this.model.getFilePath() || 'untitled'
   }
 
   getCanvas() {
@@ -54,14 +59,6 @@ class SVGEditor {
     this.canvas = document.createElement('div');
     this.canvas.id = 'canvas'
     this.svgDocument = new SVGDocument(this.canvas);
-  }
-
-  getTitle() {
-    return `${this.model.getFilePath() || 'untitled'} - Curve`
-  }
-
-  updateTitle() {
-    document.title = this.getTitle()
   }
 
   open() {
