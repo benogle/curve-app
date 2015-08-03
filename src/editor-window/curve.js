@@ -39,6 +39,31 @@ class Curve {
       document.title = 'Curve'
   }
 
+  confirmClose() {
+    if (!this.activeEditor.isModified()) return true
+
+    let options, chosen, filePath, title
+
+    title = this.activeEditor.getTitle()
+
+    options = {
+      message: "'#{title}' has changes, do you want to save them?",
+      detailedMessage: "Your changes will be lost if you close this item without saving.",
+      buttons: ["Save", "Cancel", "Don't Save"]
+    }
+    chosen = this.showConfirmDialog(options)
+
+    switch (chosen) {
+      case 0:
+        this.saveActiveEditor()
+        return true
+      case 1:
+        return false
+      case 2:
+        return true
+    }
+  }
+
   saveActiveEditor() {
     let filePath = this.activeEditor.getFilePath()
     if (filePath)
@@ -70,5 +95,19 @@ class Curve {
     }
 
     dialog.showSaveDialog(null, options, callback)
+  }
+
+  showConfirmDialog(options) {
+    let dialog, chosen
+
+    dialog = remote.require('dialog')
+    chosen = dialog.showMessageBox(remote.getCurrentWindow(),{
+      type: 'info',
+      message: options.message,
+      detail: options.detailedMessage,
+      buttons: options.buttons
+    })
+
+    return chosen
   }
 }

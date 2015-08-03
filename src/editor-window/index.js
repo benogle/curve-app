@@ -10,4 +10,9 @@ window.onload = function() {
   document.body.appendChild(editor.getCanvas())
 
   global.EDITOR = editor // debugging
+
+  window.onbeforeunload = (event) => {
+    let confirmed = curve.confirmClose()
+    return confirmed
+  }
 }
