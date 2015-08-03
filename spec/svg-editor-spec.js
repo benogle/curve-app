@@ -13,7 +13,7 @@ describe('SVGEditor', function() {
 
   describe("when there no filePath is specified", function(){
     beforeEach(function(){
-      editor = new SVGEditor
+      editor = new SVGEditor(null)
     })
 
     it("is labeled untitled", function(){
