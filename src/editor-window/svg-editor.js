@@ -100,6 +100,10 @@ class SVGEditor {
     return this.canvas
   }
 
+  getDocument() {
+    return this.svgDocument
+  }
+
   createCanvas(canvasNode) {
     if (canvasNode)
       this.canvas = canvasNode

@@ -9,7 +9,19 @@ window.onload = function() {
   editor = new SVGEditor(args.fileName, document.querySelector('#canvas'))
   global.EDITOR = editor // debugging
 
+  nicelyCenter(editor)
+
   window.onbeforeunload = function() {
     return curve.confirmClose()
   }
+}
+
+function nicelyCenter(editor) {
+  let top, left, canvas = editor.getCanvas()
+
+  top = canvas.offsetTop - 20
+  left = (canvas.offsetWidth / 2 + canvas.offsetLeft) - window.innerWidth / 2
+
+  document.body.scrollTop = top
+  document.body.scrollLeft = left
 }
