@@ -1,11 +1,12 @@
-var fs = require('fs');
-var SVGDocument = require('curve').SVGDocument
-var Emitter = require('event-kit').Emitter
+let fs = require('fs');
+let path = require('path');
+let SVGDocument = require('curve').SVGDocument
+let Emitter = require('event-kit').Emitter
 
 class SVGEditorModel {
   constructor(filePath) {
     this.emitter = new Emitter
-    this.filePath = filePath
+    this.filePath = path.resolve(filePath)
     this.modified = false
     this.documentSubscription = null
   }
