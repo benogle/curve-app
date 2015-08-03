@@ -22,16 +22,28 @@ class SVGEditorModel {
     this.filePath = filePath
     this.emitter.emit('did-change-file-path', filePath)
   }
+
+  readFileSync() {
+    let filePath = this.getFilePath()
+    if (!filePath) return null
+    return fs.readFileSync(filePath, {encoding: 'utf8'})
+  }
 }
 
 class SVGEditor {
   constructor(filePath) {
+    if (global.curve) curve.setActiveEditor(this)
+
     this.model = new SVGEditorModel(filePath)
     this.model.onDidChangeFilePath(this.updateTitle.bind(this))
 
     this.updateTitle()
     this.createCanvas()
-    this.deserialize()
+    this.open()
+  }
+
+  getFilePath() {
+    return this.model.getFilePath()
   }
 
   getCanvas() {
@@ -44,25 +56,31 @@ class SVGEditor {
     this.svgDocument = new SVGDocument(this.canvas);
   }
 
-  deserialize() {
-    let filePath = this.model.getFilePath()
-    if (!filePath) return;
-
-    try {
-      var svg = fs.readFileSync(filePath, {encoding: 'utf8'});
-      this.svgDocument.deserialize(svg);
-    }
-    catch (error) {
-      console.error(error.stack);
-    }
-  }
-
   getTitle() {
     return `${this.model.getFilePath() || 'untitled'} - Curve`
   }
 
   updateTitle() {
     document.title = this.getTitle()
+  }
+
+  open() {
+    try {
+      let svg = this.model.readFileSync()
+      if (svg)
+        this.svgDocument.deserialize(svg)
+    }
+    catch (error) {
+      console.error(error.stack);
+    }
+  }
+
+  save() {
+    console.log('SAVE');
+  }
+
+  saveAs(filePath) {
+    console.log('SAVEAS '+filePath);
   }
 }
 
