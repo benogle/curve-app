@@ -6,9 +6,11 @@ let Emitter = require('event-kit').Emitter
 class SVGEditorModel {
   constructor(filePath) {
     this.emitter = new Emitter
-    this.filePath = path.resolve(filePath)
     this.modified = false
     this.documentSubscription = null
+
+    this.filePath = filePath
+    if (filePath) this.filePath = path.resolve(filePath)
   }
 
   onDidChangeFilePath(callback) {
@@ -105,8 +107,9 @@ class SVGEditor {
   }
 
   createCanvas(canvasNode) {
-    if (canvasNode)
+    if (canvasNode) {
       this.canvas = canvasNode
+    }
     else {
       this.canvas = document.createElement('div')
       this.canvas.id = 'canvas'
@@ -120,13 +123,14 @@ class SVGEditor {
   observeDocument() {
     let updateCanvasSize = () => {
       let size = this.svgDocument.getSize()
-      if (size) {
+      if (size && this.canvas) {
         this.canvas.style.width = `${size.width}px`
         this.canvas.style.height = `${size.height}px`
 
         // HACK to get the padding reveal on the right when window < canvas size
         // There is probably a nice CSS way to do this...
-        this.canvas.parentNode.style.minWidth = `${size.width}px`
+        if (this.canvas.parentNode)
+          this.canvas.parentNode.style.minWidth = `${size.width}px`
       }
     }
 
