@@ -77,6 +77,10 @@ describe('SVGEditor', function() {
   })
 
   describe("::save", function() {
+    beforeEach(function(){
+      editor = new SVGEditor(samplePath)
+    })
+
     it("saves the file and keeps the filePath", function() {
       let filePathSpy = jasmine.createSpy()
       editor.onDidChangeFilePath(filePathSpy)
@@ -95,6 +99,10 @@ describe('SVGEditor', function() {
   })
 
   describe("::saveAs", function() {
+    beforeEach(function(){
+      editor = new SVGEditor(samplePath)
+    })
+
     it("saves the file and changes the filePath", function() {
       let newFilePath = '/some/file.svg'
       let filePathSpy = jasmine.createSpy()
