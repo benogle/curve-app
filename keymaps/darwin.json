@@ -1,5 +1,5 @@
 {
-  "body": {
+  ".platform-darwin": {
     "up": "core:move-up",
     "down": "core:move-down"
   }
