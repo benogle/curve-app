@@ -13,6 +13,10 @@ class SVGEditorModel {
     if (filePath) this.filePath = path.resolve(filePath)
   }
 
+  /*
+  Section: Events
+  */
+
   onDidChangeFilePath(callback) {
     this.emitter.on('did-change-file-path', callback)
   }
@@ -20,6 +24,10 @@ class SVGEditorModel {
   onDidChangeModified(callback) {
     this.emitter.on('did-change-modified', callback)
   }
+
+  /*
+  Section: Public Methods
+  */
 
   observeDocument(svgDocument) {
     if (this.documentSubscription)
@@ -76,7 +84,13 @@ class SVGEditor {
     this.open()
 
     this.model.observeDocument(this.svgDocument)
+
+    this.bindToCommands()
   }
+
+  /*
+  Section: Events
+  */
 
   onDidChangeFilePath(callback) {
     this.model.onDidChangeFilePath(callback)
@@ -85,6 +99,10 @@ class SVGEditor {
   onDidChangeModified(callback) {
     this.model.onDidChangeModified(callback)
   }
+
+  /*
+  Section: Document Details
+  */
 
   isModified() {
     return this.model.isModified()
@@ -104,6 +122,47 @@ class SVGEditor {
 
   getDocument() {
     return this.svgDocument
+  }
+
+  /*
+  Section: File Management
+  */
+
+  open() {
+    try {
+      let svg = this.model.readFileSync()
+      if (svg)
+        this.svgDocument.deserialize(svg)
+    }
+    catch (error) {
+      console.error(error.stack);
+    }
+  }
+
+  save() {
+    this.saveAs(this.getFilePath())
+  }
+
+  saveAs(filePath) {
+    filePath = filePath || this.getFilePath()
+    try {
+      let data = this.svgDocument.serialize()
+      this.model.writeFile(filePath, data)
+    }
+    catch (error) {
+      console.error(error.stack)
+    }
+  }
+
+  /*
+  Section: Private
+  */
+
+  bindToCommands() {
+    curve.commands.add('body', {
+      'core:move-up': (event) => console.log('up!', event),
+      'core:move-down': (event) => console.log('down!', event)
+    })
   }
 
   createCanvas(canvasNode) {
@@ -136,32 +195,6 @@ class SVGEditor {
 
     this.svgDocument.on('change:size', updateCanvasSize)
     updateCanvasSize()
-  }
-
-  open() {
-    try {
-      let svg = this.model.readFileSync()
-      if (svg)
-        this.svgDocument.deserialize(svg)
-    }
-    catch (error) {
-      console.error(error.stack);
-    }
-  }
-
-  save() {
-    this.saveAs(this.getFilePath())
-  }
-
-  saveAs(filePath) {
-    filePath = filePath || this.getFilePath()
-    try {
-      let data = this.svgDocument.serialize()
-      this.model.writeFile(filePath, data)
-    }
-    catch (error) {
-      console.error(error.stack)
-    }
   }
 }
 
