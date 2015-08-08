@@ -1,9 +1,10 @@
-let remote, ipc, path, KeymapManager
+let remote, ipc, path, KeymapManager, CommandRegistry
 
 ipc = require('ipc')
 path = require('path')
 remote = require('remote')
 KeymapManager = require('atom-keymap')
+CommandRegistry = require('../../vendor/command-registry')
 
 module.exports =
 class Curve {
@@ -16,8 +17,7 @@ class Curve {
     this.keymaps.defaultTarget = document.body
     this.keymaps.loadKeymap(path.join(__dirname, '..', '..', 'keymaps'))
 
-    window.addEventListener('core:move-up', (event) => console.log('up', event))
-    window.addEventListener('core:move-down', (event) => console.log('down', event))
+    this.commands = new CommandRegistry
   }
 
   setActiveEditor(activeEditor) {
