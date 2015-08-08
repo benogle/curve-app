@@ -14,6 +14,10 @@ window.onload = function() {
   window.onbeforeunload = function() {
     return curve.confirmClose()
   }
+
+  document.addEventListener('keydown', function(event) {
+    curve.keymaps.handleKeyboardEvent(event)
+  })
 }
 
 function nicelyCenter(editor) {

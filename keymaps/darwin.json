@@ -1,0 +1,6 @@
+{
+  "body": {
+    "up": "core:move-up",
+    "down": "core:move-down"
+  }
+}
