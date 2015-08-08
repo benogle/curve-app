@@ -1,4 +1,5 @@
 let SVGDocument = require('curve').SVGDocument
+let Point = require('curve').Point
 let SVGEditorModel = require('./svg-editor-model')
 
 class SVGEditor {
@@ -87,9 +88,19 @@ class SVGEditor {
   */
 
   bindToCommands() {
+    let translate = (delta) => {
+      this.svgDocument.translateSelectedObjects(delta)
+    }
+
     curve.commands.add('body', {
-      'core:move-up': (event) => console.log('up!', event),
-      'core:move-down': (event) => console.log('down!', event)
+      'editor:move-selection-up': (event) => translate(new Point(0, -1)),
+      'editor:move-selection-down': (event) => translate(new Point(0, 1)),
+      'editor:move-selection-left': (event) => translate(new Point(-1, 0)),
+      'editor:move-selection-right': (event) => translate(new Point(1, 0)),
+      'editor:move-selection-up-by-ten': (event) => translate(new Point(0, -10)),
+      'editor:move-selection-down-by-ten': (event) => translate(new Point(0, 10)),
+      'editor:move-selection-left-by-ten': (event) => translate(new Point(-10, 0)),
+      'editor:move-selection-right-by-ten': (event) => translate(new Point(10, 0))
     })
   }
 
