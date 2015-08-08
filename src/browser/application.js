@@ -26,7 +26,6 @@ class Application {
 
   // Called when electron is ready
   onReady(fileNamesToOpen) {
-    console.log(fileNamesToOpen);
     if (fileNamesToOpen.length)
       this.openFiles(fileNamesToOpen);
     else
