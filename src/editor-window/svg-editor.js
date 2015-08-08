@@ -1,69 +1,6 @@
-let fs = require('fs');
-let path = require('path');
 let SVGDocument = require('curve').SVGDocument
-let Emitter = require('event-kit').Emitter
-
-class SVGEditorModel {
-  constructor(filePath) {
-    this.emitter = new Emitter
-    this.modified = false
-    this.documentSubscription = null
-
-    this.filePath = filePath
-    if (filePath) this.filePath = path.resolve(filePath)
-  }
-
-  onDidChangeFilePath(callback) {
-    this.emitter.on('did-change-file-path', callback)
-  }
-
-  onDidChangeModified(callback) {
-    this.emitter.on('did-change-modified', callback)
-  }
-
-  observeDocument(svgDocument) {
-    if (this.documentSubscription)
-      this.documentSubscription.dispose()
-    this.documentSubscription = svgDocument.on('change', () => this.setModified(true))
-  }
-
-  getFilePath() {
-    return this.filePath
-  }
-
-  setFilePath(filePath) {
-    if(this.filePath === filePath) return;
-
-    this.filePath = filePath
-    this.emitter.emit('did-change-file-path', filePath)
-  }
-
-  isModified() {
-    return this.modified
-  }
-
-  setModified(modified) {
-    if (this.modified === modified) return;
-
-    this.modified = modified
-    this.emitter.emit('did-change-modified', modified)
-  }
-
-  readFileSync() {
-    let filePath = this.getFilePath()
-    if (!filePath) return null
-    return fs.readFileSync(filePath, {encoding: 'utf8'})
-  }
-
-  writeFile(filePath, data, callback) {
-    let options = { encoding: 'utf8' }
-    this.setFilePath(filePath)
-    fs.writeFile(filePath, data, options, () => {
-      this.setModified(false)
-      if (callback) callback()
-    })
-  }
-}
+let Point = require('curve').Point
+let SVGEditorModel = require('./svg-editor-model')
 
 class SVGEditor {
   constructor(filePath, canvasNode) {
@@ -76,7 +13,13 @@ class SVGEditor {
     this.open()
 
     this.model.observeDocument(this.svgDocument)
+
+    this.bindToCommands()
   }
+
+  /*
+  Section: Events
+  */
 
   onDidChangeFilePath(callback) {
     this.model.onDidChangeFilePath(callback)
@@ -85,6 +28,10 @@ class SVGEditor {
   onDidChangeModified(callback) {
     this.model.onDidChangeModified(callback)
   }
+
+  /*
+  Section: Document Details
+  */
 
   isModified() {
     return this.model.isModified()
@@ -104,6 +51,57 @@ class SVGEditor {
 
   getDocument() {
     return this.svgDocument
+  }
+
+  /*
+  Section: File Management
+  */
+
+  open() {
+    try {
+      let svg = this.model.readFileSync()
+      if (svg)
+        this.svgDocument.deserialize(svg)
+    }
+    catch (error) {
+      console.error(error.stack);
+    }
+  }
+
+  save() {
+    this.saveAs(this.getFilePath())
+  }
+
+  saveAs(filePath) {
+    filePath = filePath || this.getFilePath()
+    try {
+      let data = this.svgDocument.serialize()
+      this.model.writeFile(filePath, data)
+    }
+    catch (error) {
+      console.error(error.stack)
+    }
+  }
+
+  /*
+  Section: Private
+  */
+
+  bindToCommands() {
+    let translate = (delta) => {
+      this.svgDocument.translateSelectedObjects(delta)
+    }
+
+    curve.commands.add('body', {
+      'editor:move-selection-up': (event) => translate(new Point(0, -1)),
+      'editor:move-selection-down': (event) => translate(new Point(0, 1)),
+      'editor:move-selection-left': (event) => translate(new Point(-1, 0)),
+      'editor:move-selection-right': (event) => translate(new Point(1, 0)),
+      'editor:move-selection-up-by-ten': (event) => translate(new Point(0, -10)),
+      'editor:move-selection-down-by-ten': (event) => translate(new Point(0, 10)),
+      'editor:move-selection-left-by-ten': (event) => translate(new Point(-10, 0)),
+      'editor:move-selection-right-by-ten': (event) => translate(new Point(10, 0))
+    })
   }
 
   createCanvas(canvasNode) {
@@ -136,32 +134,6 @@ class SVGEditor {
 
     this.svgDocument.on('change:size', updateCanvasSize)
     updateCanvasSize()
-  }
-
-  open() {
-    try {
-      let svg = this.model.readFileSync()
-      if (svg)
-        this.svgDocument.deserialize(svg)
-    }
-    catch (error) {
-      console.error(error.stack);
-    }
-  }
-
-  save() {
-    this.saveAs(this.getFilePath())
-  }
-
-  saveAs(filePath) {
-    filePath = filePath || this.getFilePath()
-    try {
-      let data = this.svgDocument.serialize()
-      this.model.writeFile(filePath, data)
-    }
-    catch (error) {
-      console.error(error.stack)
-    }
   }
 }
 
