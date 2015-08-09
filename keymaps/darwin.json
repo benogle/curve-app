@@ -1,5 +1,7 @@
 {
   ".platform-darwin": {
+    "escape": "core:cancel",
+
     "up": "editor:move-selection-up",
     "down": "editor:move-selection-down",
     "left": "editor:move-selection-left",
@@ -7,6 +9,9 @@
     "shift-up": "editor:move-selection-up-by-ten",
     "shift-down": "editor:move-selection-down-by-ten",
     "shift-left": "editor:move-selection-left-by-ten",
-    "shift-right": "editor:move-selection-right-by-ten"
+    "shift-right": "editor:move-selection-right-by-ten",
+
+    "p": "editor:pointer-tool",
+    "r": "editor:rectangle-tool"
   }
 }

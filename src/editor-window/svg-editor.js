@@ -92,7 +92,21 @@ class SVGEditor {
       this.svgDocument.translateSelectedObjects(delta)
     }
 
+    let setActiveToolType = (toolType) => {
+      this.svgDocument.setActiveToolType(toolType)
+    }
+
+    let cancel = () => {
+      if (this.svgDocument.selectionModel.getSelected() != null)
+        this.svgDocument.selectionModel.setSelected(null)
+      else
+        setActiveToolType('pointer')
+    }
+
     curve.commands.add('body', {
+      'core:cancel': (event) => cancel(),
+      'editor:pointer-tool': (event) => setActiveToolType('pointer'),
+      'editor:rectangle-tool': (event) => setActiveToolType('rectangle'),
       'editor:move-selection-up': (event) => translate(new Point(0, -1)),
       'editor:move-selection-down': (event) => translate(new Point(0, 1)),
       'editor:move-selection-left': (event) => translate(new Point(-1, 0)),
