@@ -130,6 +130,7 @@ class SVGEditor {
 
   createDocument() {
     this.svgDocument = new SVGDocument(this.canvas)
+    this.svgDocument.initializeTools()
   }
 
   observeDocument() {
