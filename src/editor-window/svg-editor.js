@@ -88,8 +88,12 @@ class SVGEditor {
   */
 
   bindToCommands() {
-    let translate = (delta) => {
+    let translateSelected = (delta) => {
       this.svgDocument.translateSelectedObjects(delta)
+    }
+
+    let removeSelected = () => {
+      this.svgDocument.removeSelectedObjects()
     }
 
     let setActiveToolType = (toolType) => {
@@ -104,17 +108,18 @@ class SVGEditor {
     }
 
     curve.commands.add('body', {
-      'core:cancel': (event) => cancel(),
-      'editor:pointer-tool': (event) => setActiveToolType('pointer'),
-      'editor:rectangle-tool': (event) => setActiveToolType('rectangle'),
-      'editor:move-selection-up': (event) => translate(new Point(0, -1)),
-      'editor:move-selection-down': (event) => translate(new Point(0, 1)),
-      'editor:move-selection-left': (event) => translate(new Point(-1, 0)),
-      'editor:move-selection-right': (event) => translate(new Point(1, 0)),
-      'editor:move-selection-up-by-ten': (event) => translate(new Point(0, -10)),
-      'editor:move-selection-down-by-ten': (event) => translate(new Point(0, 10)),
-      'editor:move-selection-left-by-ten': (event) => translate(new Point(-10, 0)),
-      'editor:move-selection-right-by-ten': (event) => translate(new Point(10, 0))
+      'core:cancel': () => cancel(),
+      'core:delete': () => removeSelected(),
+      'editor:pointer-tool': () => setActiveToolType('pointer'),
+      'editor:rectangle-tool': () => setActiveToolType('rectangle'),
+      'editor:move-selection-up': () => translateSelected(new Point(0, -1)),
+      'editor:move-selection-down': () => translateSelected(new Point(0, 1)),
+      'editor:move-selection-left': () => translateSelected(new Point(-1, 0)),
+      'editor:move-selection-right': () => translateSelected(new Point(1, 0)),
+      'editor:move-selection-up-by-ten': () => translateSelected(new Point(0, -10)),
+      'editor:move-selection-down-by-ten': () => translateSelected(new Point(0, 10)),
+      'editor:move-selection-left-by-ten': () => translateSelected(new Point(-10, 0)),
+      'editor:move-selection-right-by-ten': () => translateSelected(new Point(10, 0))
     })
   }
 

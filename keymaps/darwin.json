@@ -1,6 +1,8 @@
 {
   ".platform-darwin": {
     "escape": "core:cancel",
+    "delete": "core:delete",
+    "backspace": "core:delete",
 
     "up": "editor:move-selection-up",
     "down": "editor:move-selection-down",
