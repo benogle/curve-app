@@ -1,8 +1,9 @@
 var Curve = require('./curve');
 var SVGEditor = require('./svg-editor');
+var SidebarView = require('./sidebar-view');
 
 window.onload = function() {
-  var hash, args, editor
+  var hash, args, editor, sidebar
   hash = window.location.hash.slice(1)
   args = Object.freeze(JSON.parse(decodeURIComponent(hash)))
 
@@ -11,6 +12,8 @@ window.onload = function() {
   global.curve = new Curve(args)
   editor = new SVGEditor(args.fileName, document.querySelector('#canvas'))
   global.EDITOR = editor // debugging
+
+  sidebar = new SidebarView(editor, {element: document.querySelector('#sidebar')})
 
   nicelyCenter(editor)
 

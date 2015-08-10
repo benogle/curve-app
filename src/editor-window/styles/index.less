@@ -24,7 +24,7 @@ body {
 }
 
 #canvas-background {
-  padding: 1000px 100px;
+  padding: 1000px 20px;
   box-sizing: content-box;
 }
 
@@ -75,9 +75,46 @@ svg .node-editor-handle{
 
 // Sidebar
 
+@sidebar-width: 150px;
+@sidebar-button-height: 70px;
+@sidebar-border-color: #505050;
+@sidebar-background-color: #3e3e3e;
+@sidebar-active-button-color: rgba(0, 0, 0, 0.32);
 #sidebar {
   flex-shrink: 0;
-  width: 150px;
-  background: #333;
+  width: @sidebar-width;
+  background: @sidebar-background-color;
+  color: white;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+  .tool-button-row {
+    border-bottom: 1px solid @sidebar-border-color;
+    height: @sidebar-button-height + 1;
+  }
+
+  .tool-button {
+    color: fadeout(white, 10%);
+    display: block;
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: 50%;
+    height: @sidebar-button-height;
+    background: 0;
+    border: 0;
+    outline: 0;
+
+    &:first-child {
+      border-right: 1px solid @sidebar-border-color;
+    }
+
+    &:active {
+      padding-top: 2px;
+    }
+
+    &.active {
+      color: white;
+      background: @sidebar-active-button-color;
+    }
+  }
 }
