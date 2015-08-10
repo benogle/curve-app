@@ -24,11 +24,13 @@ window.onload = function() {
 }
 
 function nicelyCenter(editor) {
-  let top, left, canvas = editor.getCanvas()
+  let top, left, scroller, canvas = editor.getCanvas()
+
+  scroller = document.querySelector('#canvas-scroller')
 
   top = canvas.offsetTop - 20
-  left = (canvas.offsetWidth / 2 + canvas.offsetLeft) - window.innerWidth / 2
+  left = (canvas.offsetWidth / 2 + canvas.offsetLeft) - window.innerWidth / 2 - scroller.offsetLeft/2
 
-  document.body.scrollTop = top
-  document.body.scrollLeft = left
+  scroller.scrollTop = top
+  scroller.scrollLeft = left
 }
