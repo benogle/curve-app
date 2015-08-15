@@ -1,0 +1,176 @@
+@material-shadow-1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+@material-shadow-2: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: 'SF UI Text', 'Lucida Grande', 'Segoe UI', Ubuntu, Cantarell, sans-serif;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: stretch;
+  background: #f4f4f4;
+}
+
+// Editor
+
+#canvas-scroller {
+  overflow: auto;
+  flex-grow: 1;
+}
+
+#canvas-background {
+  padding: 1000px 20px;
+  box-sizing: content-box;
+}
+
+#canvas {
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 1px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+#canvas>svg {
+  width: 100% !important;
+  // overflow: hidden;
+  // This allows drawing outside the canvas boundary. But it's buggy :(
+  overflow: visible;
+}
+
+svg .object-selection{
+  fill: none;
+  stroke: #09C;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+svg .object-preselection{
+  fill: none;
+  stroke: #F00;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+svg .node-editor-node{
+  fill: #fff;
+  stroke: #069;
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+svg .node-editor-lines{
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1;
+  stroke-dasharray: . ;
+}
+svg .node-editor-handle{
+  fill: #fff;
+  stroke: #069;
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+
+
+// Sidebar
+
+@sidebar-width: 150px;
+@sidebar-padding: 20px;
+@sidebar-button-height: 70px;
+@sidebar-border-color: #505050;
+@sidebar-background-color: #3e3e3e;
+@sidebar-active-button-color: rgba(0, 0, 0, 0.32);
+@sidebar-text-color: #e0e0e0;
+
+#sidebar {
+  flex-shrink: 0;
+  width: @sidebar-width;
+  background: @sidebar-background-color;
+  color: white;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+  -webkit-user-select: none;
+  user-select: none;
+
+  .tool-button-row {
+    border-bottom: 1px solid @sidebar-border-color;
+    height: @sidebar-button-height + 1;
+  }
+
+  .tool-button {
+    color: fadeout(white, 10%);
+    display: block;
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: 50%;
+    height: @sidebar-button-height;
+    background: 0;
+    border: 0;
+    outline: 0;
+
+    &:first-child {
+      border-right: 1px solid @sidebar-border-color;
+    }
+
+    &:active {
+      padding-top: 2px;
+    }
+
+    &.active {
+      color: white;
+      background: @sidebar-active-button-color;
+    }
+  }
+}
+
+.object-editor {
+  color: @sidebar-text-color;
+  padding: @sidebar-padding;
+
+  .object-editor-title {
+    margin: 0 0 @sidebar-padding 0;
+  }
+}
+
+.attribute-editor {
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: #8F8F8F;
+  }
+  input {
+    display: block;
+  }
+}
+
+.color-editor {
+  input {
+    display: block;
+    width: 100%;
+    height: 30px;
+    padding: 0;
+    border: none;
+    border-radius: 2px;
+    outline: 0;
+    -webkit-appearance: none;
+    box-shadow: @material-shadow-1;
+
+    &::-webkit-color-swatch-wrapper {
+      padding: 0;
+      border-radius: 2px;
+    }
+
+    &::-webkit-color-swatch {
+      border: none;
+      border-radius: 2px;
+    }
+  }
+}

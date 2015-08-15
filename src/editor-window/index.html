@@ -3,12 +3,22 @@
 <head>
   <title>Curve</title>
   <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self'; style-src 'self' 'unsafe-inline';">
-  <link rel="stylesheet" href="index.less" media="screen" title="no title" charset="utf-8">
+  <link rel="stylesheet" href="styles/index.less" media="screen" title="no title" charset="utf-8">
   <script src="index.js"></script>
 </head>
 <body tabindex="-1">
+  <div id="sidebar">
+    <div class="tool-buttons">
+      <div class="tool-button-row">
+        <button class="tool-button active" data-tool="pointer" title="Pointer tool (P)">P</button>
+        <button class="tool-button" data-tool="rectangle" title="Rectangle tool (R)">R</button>
+      </div>
+    </div>
+  </div>
   <div id="canvas-scroller">
-    <div id="canvas"></div>
+    <div id="canvas-background">
+      <div id="canvas"></div>
+    </div>
   </div>
 </body>
 </html>
