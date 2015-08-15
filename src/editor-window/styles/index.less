@@ -37,7 +37,9 @@ body {
 
 #canvas>svg {
   width: 100% !important;
-  overflow: visible;
+  overflow: hidden;
+  // This allows drawing outside the canvas boundary. But it's buggy :(
+  // overflow: visible;
 }
 
 svg .object-selection{
