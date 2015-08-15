@@ -62,6 +62,9 @@ class SVGEditor {
       let svg = this.model.readFileSync()
       if (svg)
         this.svgDocument.deserialize(svg)
+      else
+        // Initializes the drawing layer when an empty file
+        this.svgDocument.getObjectLayer()
     }
     catch (error) {
       console.error(error.stack);
