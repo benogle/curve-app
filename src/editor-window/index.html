@@ -10,8 +10,12 @@
   <div id="sidebar">
     <div class="tool-buttons">
       <div class="tool-button-row">
-        <button class="tool-button active" data-tool="pointer" title="Pointer tool (P)">P</button>
-        <button class="tool-button" data-tool="rectangle" title="Rectangle tool (R)">R</button>
+        <button class="tool-button active" data-tool="pointer" title="Pointer tool (P)">
+          <svg class="icon"><use xlink:href="#pointer-tool" /></svg>
+        </button>
+        <button class="tool-button" data-tool="rectangle" title="Rectangle tool (R)">
+          <svg class="icon"><use xlink:href="#rectangle-tool" /></svg>
+        </button>
       </div>
     </div>
   </div>
@@ -20,5 +24,14 @@
       <div id="canvas"></div>
     </div>
   </div>
+
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="pointer-tool" viewBox="0 0 38 38" stroke="none">
+      <path d="M20.7072857,21.9062177 L25.3210549,33.0155873 L21.2740258,34.7046558 L16.6601451,23.6498766 L10,30.3650005 L10,2 L30,21.894285 L20.7072857,21.9062177 L20.7072857,21.9062177 Z"></path>
+    </symbol>
+    <symbol id="rectangle-tool" viewBox="0 0 38 38" stroke="none">
+      <path d="M28,6 L5.99161703,6 C4.89784041,6 4,6.89151044 4,7.99124431 L4,32.0087557 C4,33.1001025 4.89167732,34 5.99161703,34 L32.008383,34 C33.1021596,34 34,33.1084896 34,32.0087557 L34,12 C30.6862915,12 28,9.3137085 28,6 L28,6 Z M34,10 C36.209139,10 38,8.209139 38,6 C38,3.790861 36.209139,2 34,2 C31.790861,2 30,3.790861 30,6 C30,8.209139 31.790861,10 34,10 Z"></path>
+    </symbol>
+  </svg>
 </body>
 </html>
