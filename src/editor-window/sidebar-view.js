@@ -1,4 +1,5 @@
 let DOMListener = require('dom-listener')
+let ObjectEditorView = require('./object-editor-view')
 
 class SidebarView {
   constructor(svgEditor, {element}={}) {
@@ -7,6 +8,9 @@ class SidebarView {
 
     this.element = element || document.createElement('div')
     this.element.id = 'sidebar'
+
+    this.objectEditor = new ObjectEditorView(svgEditor)
+    this.element.appendChild(this.objectEditor.element)
 
     this.domListener = new DOMListener(this.element)
     this.domListener.add('.tool-button', 'click', this.didClickToolButton.bind(this))
