@@ -113,6 +113,8 @@ class SVGEditor {
     curve.commands.add('body', {
       'core:cancel': () => cancel(),
       'core:delete': () => removeSelected(),
+      'editor:pen-tool': () => setActiveToolType('pen'),
+      'editor:ellipse-tool': () => setActiveToolType('ellipse'),
       'editor:pointer-tool': () => setActiveToolType('pointer'),
       'editor:rectangle-tool': () => setActiveToolType('rectangle'),
       'editor:move-selection-up': () => translateSelected(new Point(0, -1)),

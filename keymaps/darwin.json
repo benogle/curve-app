@@ -13,7 +13,9 @@
     "shift-left": "editor:move-selection-left-by-ten",
     "shift-right": "editor:move-selection-right-by-ten",
 
-    "p": "editor:pointer-tool",
+    "p": "editor:pen-tool",
+    "o": "editor:ellipse-tool",
+    "v": "editor:pointer-tool",
     "r": "editor:rectangle-tool"
   }
 }
