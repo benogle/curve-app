@@ -41,3 +41,7 @@ script/run
 # To open a file from the command line
 script/run path/to/file.svg
 ```
+
+## License
+
+MIT License
