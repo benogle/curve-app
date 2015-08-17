@@ -18,7 +18,8 @@ Note: at this point it is a toy (MVP!) intended to serve as a real-ish example o
 * Create Paths (pen tool)
 * Create Rectangles (rectangle tool)
 * Create Ellipses (ellipse tool)
-* Edit object including (nodes and their handles)
+* Edit object shapes (rectangles, ellipses, paths: nodes and their handles)
+* Edit object fill color
 
 ## TODO
 
