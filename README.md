@@ -25,6 +25,7 @@ Note: at this point it is a toy (MVP!) intended to serve as a real-ish example o
 
 * Undo
 * Zoom
+* Multi-select
 * Better handle management on nodes (break, join, pull)
 * Legit color picker that allows alpha
 * The editing of more parameters (more than just fill!)
