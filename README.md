@@ -7,7 +7,7 @@ Curve App is a vector drawing desktop application written in JavaScript and base
 Note: at this point it is a toy (MVP!) intended to serve as a real-ish example of an Electron app. It has all the trimmings most apps will need:
 
 * Window management
-* File management (save, save as, modified files)
+* File management (open, save, save as, dealing with modified files)
 * Menus
 * Keyboard shortcuts
 * Passing command line parameters from the browser process to the renderer process
