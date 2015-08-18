@@ -1,31 +1,51 @@
-#!/bin/bash
+#!/usr/bin/env node
 
-MODULE_PATH="./node_modules"
-PACKAGER_PATH="$MODULE_PATH/.bin/electron-packager"
-PREBUILT_PATH="$MODULE_PATH/electron-prebuilt"
-PREBUILT_PACKAGE_JSON_PATH="$PREBUILT_PATH/package.json"
-PACKAGE_JSON_PATH="package.json"
-BUILD_OUTPUT_PATH="./release"
-COMPILE_COMMAND="./script/compile"
-ICON_PATH="./resources/mac/app.icns"
+var fs = require('fs');
+var path = require("path");
+var proc = require('child_process');
+var argv = require('yargs')
+  .default('arch', process.arch)
+  .default('platform', process.platform)
+  .argv;
 
-IGNORE_PATHS="node_modules/electron-compile/node_modules/electron-compilers|node_modules/\\.bin|node_modules/electron-rebuild|node_modules/electron-jasmine|(/release$)|(/script$)|(/spec$)"
+function jsonValue(path, value) { return JSON.parse(fs.readFileSync(path).toString())[value]; };
 
-function json_value {
-  # From https://gist.github.com/cjus/1047794
-  cat $1 | sed 's/\\\\\//\//g' | sed 's/[{}]//g' | awk -v k="text" '{n=split($0,a,","); for (i=1; i<=n; i++) print a[i]}' | sed 's/\"\:\"/\|/g' | sed 's/[\,]/ /g' | sed 's/\"//g' | grep -w $2 | tr ": " " "
+var modulePath = path.join(".", "node_modules");
+var packagerCmd = path.join(modulePath, ".bin", "electron-packager");
+var prebuiltPath = path.join(modulePath, "electron-prebuilt");
+var prebuiltPackageJSONPath = path.join(prebuiltPath, "package.json");
+var buildOutputPath = path.join(".", "release");
+var compileCmd = path.join(".", "script", "compile");
+
+var ignorePaths='node_modules/electron-compile/node_modules/electron-compilers|node_modules/\\.bin|node_modules/electron-rebuild|node_modules/electron-jasmine|(/release$)|(/script$)|(/spec$)';
+
+var electronVersion = jsonValue(prebuiltPackageJSONPath, 'version');
+var appName = jsonValue('package.json', 'appName');
+
+proc.spawnSync(compileCmd, [], {stdio: 'inherit'});
+
+console.log('Building ', appName);
+
+var args = [
+  './',
+  appName,
+  '--overwrite',
+  '--platform', argv.platform,
+  '--arch', argv.arch,
+  '--version', electronVersion,
+  '--ignore', ignorePaths,
+  '--out', buildOutputPath
+];
+
+var ignoreArgs = ['overwrite', 'platform', 'arch', 'version', 'ignore', 'out', '_', '$0']
+for(var arg in argv) {
+  if (ignoreArgs.indexOf(arg) > -1) continue;
+
+  if (argv[arg] === true)
+    args.push('--' + arg)
+  else
+    args.push('--' + arg, argv[arg])
 }
 
-ELECTRON_VERSION=($( json_value $PREBUILT_PACKAGE_JSON_PATH "version" ))
-ELECTRON_VERSION=${ELECTRON_VERSION[1]}
-
-APP_NAME=($( json_value $PACKAGE_JSON_PATH "appName" ))
-APP_NAME=${APP_NAME[1]}
-
-APP_VERSION=($( json_value $PACKAGE_JSON_PATH "version" ))
-APP_VERSION=${APP_VERSION[1]}
-
-$COMPILE_COMMAND
-
-echo "Building $APP_NAME"
-$PACKAGER_PATH ./ $APP_NAME --overwrite --platform darwin --arch x64 --icon "$ICON_PATH" --app-version "$APP_VERSION" --version "$ELECTRON_VERSION" --ignore "$IGNORE_PATHS" --out "$BUILD_OUTPUT_PATH" $@
+args = args.concat(argv._);
+proc.spawn(packagerCmd, args, {stdio: 'inherit'});

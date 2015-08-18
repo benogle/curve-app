@@ -1,10 +1,19 @@
-#!/bin/bash
+#!/usr/bin/env node
 
-MODULE_PATH="./node_modules"
-COMPILER_PATH="$MODULE_PATH/.bin/electron-compile"
+var path = require("path");
+var proc = require("child_process");
 
-PATH_TO_COMPILE="./src"
-COMPILE_CACHE_PATH="./compile-cache"
+var modulePath = path.join(".", "node_modules");
+var compilerPath = path.join(modulePath, ".bin", "electron-compile");
+var pathsToCompile = [
+  path.join(".", "src"),
+  path.join(".", "vendor")
+];
+var compileCachepath = path.join(".", "compile-cache");
 
-echo "Compiling..."
-$COMPILER_PATH --target "$COMPILE_CACHE_PATH" $PATH_TO_COMPILE
+console.log("Compiling...");
+
+var args = [
+  "--target", compileCachepath
+].concat(pathsToCompile);
+proc.spawn(compilerPath, args, {stdio: "inherit"});

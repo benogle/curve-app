@@ -1,19 +1,24 @@
-#!/bin/bash
+#!/usr/bin/env node
 
-MODULE_PATH="./node_modules"
-REBUILD_PATH="$MODULE_PATH/.bin/electron-rebuild"
-PREBUILT_PATH="$MODULE_PATH/electron-prebuilt"
-PACKAGE_JSON_PATH="$PREBUILT_PATH/package.json"
+var fs = require("fs");
+var path = require("path");
+var proc = require("child_process");
 
-function json_value {
-  # From https://gist.github.com/cjus/1047794
-  cat $1 | sed 's/\\\\\//\//g' | sed 's/[{}]//g' | awk -v k="text" '{n=split($0,a,","); for (i=1; i<=n; i++) print a[i]}' | sed 's/\"\:\"/\|/g' | sed 's/[\,]/ /g' | sed 's/\"//g' | grep -w $2 | tr ": " " "
-}
+var modulePath = path.join(".", "node_modules");
+var rebuildPath = path.join(modulePath, ".bin", "electron-rebuild");
+var prebuiltPath = path.join(modulePath, "electron-prebuilt");
+var prebuiltPackageJSONPath = path.join(prebuiltPath, "package.json");
 
-ELECTRON_VERSION=($( json_value $PACKAGE_JSON_PATH "version" ))
-ELECTRON_VERSION=${ELECTRON_VERSION[1]}
+function jsonValue(path, value) { return JSON.parse(fs.readFileSync(path).toString())[value]; };
 
-echo "Electron Version: $ELECTRON_VERSION"
+var electronVersion = jsonValue(prebuiltPackageJSONPath, "version");
 
-npm install
-$REBUILD_PATH --version "$ELECTRON_VERSION" --electron-prebuilt-dir "$PREBUILT_PATH" --module-dir "$MODULE_PATH"
+proc.spawnSync("npm", ["install"], {stdio: "inherit"});
+
+var args = [
+  "--version", electronVersion,
+  "--electron-prebuilt-dir", prebuiltPath,
+  "--module-dir", modulePath
+];
+
+proc.spawn(rebuildPath, args, {stdio: "inherit"});

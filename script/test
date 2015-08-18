@@ -1,6 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env node
 
-MODULE_PATH="./node_modules"
-ELECTRON_PATH="$MODULE_PATH/.bin/electron"
+var path = require("path");
+var proc = require("child_process");
 
-$ELECTRON_PATH . --test $@
+var runPath = path.join("script", "run");
+var args = [
+  "--test"
+].concat(process.argv.slice(2));
+
+proc.spawn(runPath, args, {stdio: "inherit"});
