@@ -10,7 +10,7 @@ window.onload = function() {
   document.body.classList.add(`platform-${process.platform}`)
 
   global.curve = new Curve(args)
-  editor = new SVGEditor(args.fileName, document.querySelector('#canvas'))
+  editor = new SVGEditor(args.fileName, document.querySelector('#canvas'), args)
   global.EDITOR = editor // debugging
 
   sidebar = new SidebarView(editor, {element: document.querySelector('#sidebar')})

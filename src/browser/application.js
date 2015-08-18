@@ -5,6 +5,7 @@ app = require('app');
 dialog = require('dialog');
 path = require('path');
 BrowserWindow = require('browser-window');
+ObjectAssign = require('object-assign');
 ApplicationWindow = require('./application-window');
 
 class Application {
@@ -29,7 +30,7 @@ class Application {
     if (fileNamesToOpen.length)
       this.openFiles(fileNamesToOpen);
     else
-      this.openWindow()
+      this.openWindow(null, {showWelcomeFile: true})
   }
 
   saveActiveFile() {
@@ -66,13 +67,13 @@ class Application {
     }
   }
 
-  openWindow(fileName) {
+  openWindow(fileName, options) {
     var win, windowPath;
     windowPath = path.resolve(__dirname, "..", "editor-window", "index.html");
     win = new ApplicationWindow(windowPath, {
       width: 1200,
       height: 800
-    }, {fileName: fileName});
+    }, ObjectAssign({fileName: fileName}, options));
     this.addWindow(win);
   }
 
