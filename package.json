@@ -28,6 +28,7 @@
     "curve": "^0.1.0",
     "dom-listener": "^0.1.0",
     "event-kit": "^1.2.0",
+    "object-assign": "^3.0.0",
     "yargs": "^3.16.1"
   }
 }
