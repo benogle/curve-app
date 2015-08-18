@@ -38,6 +38,11 @@ module.exports = function(app, window) {
       label: 'File',
       submenu: [
         {
+          label: 'New File',
+          accelerator: 'Command+n',
+          click: () => global.application.openNewWindow()
+        },
+        {
           label: 'Open…',
           accelerator: 'Command+o',
           click: () => global.application.openFileDialog()

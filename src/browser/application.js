@@ -33,6 +33,10 @@ class Application {
       this.openWindow(null, {showWelcomeFile: true})
   }
 
+  openNewWindow() {
+    this.openWindow()
+  }
+
   saveActiveFile() {
     let win = BrowserWindow.getFocusedWindow()
     if (win)
