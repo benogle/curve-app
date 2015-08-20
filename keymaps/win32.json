@@ -1,0 +1,21 @@
+{
+  ".platform-darwin": {
+    "escape": "core:cancel",
+    "delete": "core:delete",
+    "backspace": "core:delete",
+
+    "up": "editor:move-selection-up",
+    "down": "editor:move-selection-down",
+    "left": "editor:move-selection-left",
+    "right": "editor:move-selection-right",
+    "shift-up": "editor:move-selection-up-by-ten",
+    "shift-down": "editor:move-selection-down-by-ten",
+    "shift-left": "editor:move-selection-left-by-ten",
+    "shift-right": "editor:move-selection-right-by-ten",
+
+    "p": "editor:pen-tool",
+    "o": "editor:ellipse-tool",
+    "v": "editor:pointer-tool",
+    "r": "editor:rectangle-tool"
+  }
+}
