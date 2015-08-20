@@ -9,6 +9,10 @@ var argv = require('yargs')
 var modulePath = path.join(".", "node_modules");
 var electronPath = path.join(modulePath, ".bin", "electron");
 
+if (process.platform === 'win32') {
+  electronPath += '.cmd';
+}
+
 var args = [
   ".",
   "--environment", argv.environment

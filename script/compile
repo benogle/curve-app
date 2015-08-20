@@ -8,10 +8,14 @@ var compilerPath = path.join(modulePath, ".bin", "electron-compile");
 var pathsToCompile = [
   path.join(".", "src"),
   path.join(".", "vendor")
-];
+]
 var compileCachepath = path.join(".", "compile-cache");
 
 console.log("Compiling...");
+
+if (process.platform === 'win32') {
+  compilerPath += '.cmd';
+}
 
 var args = [
   "--target", compileCachepath
