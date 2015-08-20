@@ -16,7 +16,7 @@ class ApplicationWindow {
       hash: encodeURIComponent(JSON.stringify(args))
     });
     this.window.loadUrl(indexUrl);
-    this.menu = Menu.buildFromTemplate(require('./menu-darwin')(app, this.window));
+    this.menu = Menu.buildFromTemplate(require('./menu-'+process.platform)(app, this.window));
     Menu.setApplicationMenu(this.menu);
   }
 
