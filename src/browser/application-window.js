@@ -6,14 +6,20 @@ url = require('url');
 Menu = require('menu');
 
 class ApplicationWindow {
-  constructor(indexPath, options, args) {
+  // `indexPath` - {String} path to the HTML page
+  // `browserWindowOptions` - {Object} options for the BrowserWindow
+  // `rendererArgs` - {Object} arguments that are passed to the renderer process
+  constructor(indexPath, browserWindowOptions, rendererArgs) {
     var indexUrl;
-    this.window = new BrowserWindow(options);
+    this.window = new BrowserWindow(browserWindowOptions);
+
+    // Arguments are passed to the renderer via the URL hash as JSON.
+    // e.g. file:///some/path/to/index.html#{filePath: '/path/to/file/to/open.svg'}
     indexUrl = url.format({
       protocol: 'file',
       pathname: indexPath,
       slashes: true,
-      hash: encodeURIComponent(JSON.stringify(args))
+      hash: encodeURIComponent(JSON.stringify(rendererArgs))
     });
     this.window.loadUrl(indexUrl);
     this.menu = Menu.buildFromTemplate(require('./menu-'+process.platform)(app, this.window));
